@@ -5,6 +5,9 @@ import { useStore } from "vuex";
 const store = useStore();
 const activeRow = ref("");
 const data = computed(() => store.state.data);
+const postName = ref("");
+const postAge = ref(null);
+const isPostActive = ref(false);
 const isPutActive = ref(false);
 const handleDeleteBtn = (item) => store.dispatch("delete", item._id);
 const handlePutBtn = (item) => {
@@ -18,18 +21,37 @@ const handlePutSaveBtn = (item) => {
   isPutActive.value = !isPutActive.value;
   store.dispatch("put", { _id, name, age });
 };
+const handlePostSaveBtn = () => {
+  store.dispatch("post", { name: postName.value, age: postAge.value });
+  postName.value = "";
+  postAge.value = "";
+  isPostActive.value = false;
+};
 </script>
 
 <template>
+  <div v-if="isPostActive" class="popUpContainer">
+    <div class="postPopUp">
+      <input v-model="postName" placeholder="Name" />
+      <input v-model="postAge" placeholder="Age" />
+      <div class="postPopUpBtnContainer">
+        <button @click="handlePostSaveBtn">Save</button>
+        <button @click="isPostActive = false">Cancel</button>
+      </div>
+    </div>
+  </div>
   <div class="container">
+    <button @click="isPostActive = true" class="postBtn">
+      Add to the list<img src="../assets/plus.svg" />
+    </button>
     <table v-if="data.length > 0" class="table">
       <thead>
         <tr>
           <th>_ID</th>
           <th>NAME</th>
           <th>AGE</th>
-          <th>PUT</th>
-          <th>DELETE</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -47,16 +69,20 @@ const handlePutSaveBtn = (item) => {
           </td>
           <td>
             <button v-if="activeRow !== item._id" @click="handlePutBtn(item)">
-              put
+              <img src="../assets/edit.svg" alt="edit" />
             </button>
             <button
               v-if="activeRow === item._id && isPutActive"
               @click="handlePutSaveBtn(item)"
             >
-              save
+              <img src="../assets/check.svg" alt="save" />
             </button>
           </td>
-          <td><button @click="handleDeleteBtn(item)">delete</button></td>
+          <td>
+            <button @click="handleDeleteBtn(item)">
+              <img src="../assets/delete.svg" alt="delete" />
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -83,5 +109,57 @@ const handlePutSaveBtn = (item) => {
 .table th,
 tr:nth-child(even) {
   background-color: #1f1f1f;
+}
+
+.postBtn {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  height: 60px;
+  margin: 0 0 30px 0;
+  align-items: center;
+  width: 250px;
+}
+
+.popUpContainer {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color */
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.postPopUp {
+  display: flex;
+  flex-direction: column;
+  left: 50%;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #242424;
+  border-radius: 12px;
+}
+
+.postPopUpBtnContainer {
+  display: flex;
+  width: 100%;
+}
+
+.postPopUp input {
+  margin: 5px 0;
+}
+
+.postPopUpBtnContainer button {
+  margin: 5px 0;
+  width: 100%;
+}
+
+img {
+  width: 80%;
+  height: 80%;
 }
 </style>

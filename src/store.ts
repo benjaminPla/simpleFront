@@ -16,6 +16,18 @@ const store = createStore({
       );
       commit("setData", data);
     },
+    post: async ({ commit, dispatch }, payload) => {
+      const { name, age } = payload;
+      console.log({ name, age });
+      await fetch(`http://localhost:3000/post`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, age }),
+      });
+      dispatch("get");
+    },
     put: async ({ commit, dispatch }, payload) => {
       const { _id, name, age } = payload;
       await fetch(`http://localhost:3000/put/${_id}`, {
