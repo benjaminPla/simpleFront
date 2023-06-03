@@ -1,22 +1,33 @@
-import { createStore } from "vuex";
+// @ts-ignore
+import { createStore, Commit, Dispatch } from "vuex";
+
+interface IState {
+  data: any;
+}
+
+interface IPayload {
+  _id?: string;
+  name?: string;
+  age?: string | number;
+}
 
 const store = createStore({
   state: {
     data: [],
   },
   mutations: {
-    setData: (state, payload) => {
+    setData: (state: IState, payload: IPayload) => {
       state.data = payload;
     },
   },
   actions: {
-    get: async ({ commit }) => {
+    get: async ({ commit }: Commit) => {
       const data = await fetch("http://localhost:3000/get").then((res) =>
         res.json()
       );
       commit("setData", data);
     },
-    post: async ({ commit, dispatch }, payload) => {
+    post: async ({ dispatch }: Dispatch, payload: IPayload) => {
       const { name, age } = payload;
       console.log({ name, age });
       await fetch(`http://localhost:3000/post`, {
@@ -28,7 +39,7 @@ const store = createStore({
       });
       dispatch("get");
     },
-    put: async ({ commit, dispatch }, payload) => {
+    put: async ({ dispatch }: Dispatch, payload: IPayload) => {
       const { _id, name, age } = payload;
       await fetch(`http://localhost:3000/put/${_id}`, {
         method: "PUT",
@@ -39,7 +50,7 @@ const store = createStore({
       });
       dispatch("get");
     },
-    delete: async ({ commit, dispatch }, payload) => {
+    delete: async ({ dispatch }: Dispatch, payload: IPayload) => {
       await fetch(`http://localhost:3000/delete/${payload}`, {
         method: "DELETE",
       });

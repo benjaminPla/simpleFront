@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-ignore
 import { useStore } from "vuex";
 import Main from "./components/Main.vue";
 

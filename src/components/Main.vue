@@ -1,21 +1,28 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+// @ts-ignore
 import { useStore } from "vuex";
+import { computed, ref, Ref } from "vue";
+
+interface IItem {
+  _id?: string;
+  name?: string;
+  age?: string | number;
+}
 
 const store = useStore();
-const activeRow = ref("");
+const activeRow: Ref<string | undefined> = ref("");
 const data = computed(() => store.state.data);
 const postName = ref("");
-const postAge = ref(null);
+const postAge: Ref<string | number | null> = ref(null);
 const isPostActive = ref(false);
 const isPutActive = ref(false);
-const handleDeleteBtn = (item) => store.dispatch("delete", item._id);
-const handlePutBtn = (item) => {
-  const { _id, name, age } = item;
+const handleDeleteBtn = (item: IItem) => store.dispatch("delete", item._id);
+const handlePutBtn = (item: IItem) => {
+  const { _id } = item;
   activeRow.value = activeRow.value === _id ? "" : _id;
   isPutActive.value = !isPutActive.value;
 };
-const handlePutSaveBtn = (item) => {
+const handlePutSaveBtn = (item: IItem) => {
   const { _id, name, age } = item;
   activeRow.value = "";
   isPutActive.value = !isPutActive.value;
