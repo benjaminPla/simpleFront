@@ -22,15 +22,14 @@ const store = createStore({
   },
   actions: {
     get: async ({ commit }: Commit) => {
-      const data = await fetch("http://localhost:3000/get").then((res) =>
-        res.json()
+      const data = await fetch(`13.53.192.193:3000/get`).then(
+        (res) => res.json()
       );
       commit("setData", data);
     },
     post: async ({ dispatch }: Dispatch, payload: IPayload) => {
       const { name, age } = payload;
-      console.log({ name, age });
-      await fetch(`http://localhost:3000/post`, {
+      await fetch(`13.53.192.193:3000/post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,18 +39,22 @@ const store = createStore({
       dispatch("get");
     },
     put: async ({ dispatch }: Dispatch, payload: IPayload) => {
-      const { _id, name, age } = payload;
-      await fetch(`http://localhost:3000/put/${_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, age }),
-      });
-      dispatch("get");
+      try {
+        const { _id, name, age } = payload;
+        await fetch(`13.53.192.193:3000/put/${_id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, age }),
+        });
+        dispatch("get");
+      } catch (error) {
+        console.log(error);
+      }
     },
     delete: async ({ dispatch }: Dispatch, payload: IPayload) => {
-      await fetch(`http://localhost:3000/delete/${payload}`, {
+      await fetch(`13.53.192.193:3000/delete/${payload}`, {
         method: "DELETE",
       });
       dispatch("get");

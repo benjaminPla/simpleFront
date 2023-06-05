@@ -115,7 +115,7 @@ const handlePostSaveBtn = () => {
 
 .table th,
 tr:nth-child(even) {
-  background-color: #1f1f1f;
+  background-color: #666;
 }
 
 .postBtn {
@@ -129,7 +129,7 @@ tr:nth-child(even) {
 
 .popUpContainer {
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   height: 100%;
   justify-content: center;

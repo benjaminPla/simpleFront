@@ -6,7 +6,7 @@
 
   background-color: #242424;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #fff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,7 +24,7 @@ body {
 }
 
 button {
-  background-color: #1a1a1a;
+  background-color: #666;
   border-radius: 12px;
   border: 1px solid transparent;
   cursor: pointer;
@@ -58,10 +58,10 @@ input {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #000000;
-    background-color: #ffffff;
+    color: #000;
+    background-color: #fff;
   }
   button {
-    background-color: #000000;
+    background-color: #666;
   }
 }
